@@ -1,0 +1,69 @@
+/*
+	co-ecm
+	Copyright (C) 2018  Jonas Wloka
+
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+			the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+			but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+//
+//  Configuration header. Values are filled by CMake. Do not edit by hand.
+//
+
+
+#ifndef CO_ECM_BUILD_CONFIG_H_IN_H
+#define CO_ECM_BUILD_CONFIG_H_IN_H
+
+#include <stdint.h>
+
+#define BITWIDTH @BITWIDTH@
+#define LIMB_BITS @LIMB_BITS@
+#define LIMBS (BITWIDTH/LIMB_BITS)
+
+#if (LIMB_BITS == 32)
+#define LIMB_MASK  0xffffffff
+typedef uint32_t mp_limb;
+typedef uint64_t __mp_2limb;
+#elif (LIMB_BITS == 64)
+#define LIMB_MASK  0xffffffffffffffff
+typedef uint64_t mp_limb;
+typedef __uint128_t __mp_2limb;
+#endif
+
+#define BATCH_JOB_SIZE @BATCH_JOB_SIZE@
+
+#cmakedefine OPTIMIZE_PRECOMP 1
+
+
+/* NAF form settings */
+#define NAF_WINDOW_SIZE @NAF_WINDOW_SIZE@
+#define NAF_STAGE2_DEFAULT_DIGITS @NAF_STAGE2_DEFAULT_DIGITS@
+
+/* Regular form settings */
+#define MAX_SCALAR_LIMBS @MAX_SCALAR_LIMBS@
+
+/* Choose Montgomery product algorithm */
+#cmakedefine MON_PROD_CIOS
+#cmakedefine MON_PROD_CIOS_XMAD
+#cmakedefine MON_PROD_FIPS
+#cmakedefine MON_PROD_FIOS
+
+#cmakedefine COORDINATES_EXTENDED
+
+/* Set compile time log level */
+#define LOG_LEVEL LOG_LEVEL_@LOG_LEVEL@
+
+/* Define default block size */
+#define BLOCK_SIZE @BLOCK_SIZE@
+
+#endif //CO_ECM_BUILD_CONFIG_H_IN_H
